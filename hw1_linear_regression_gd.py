@@ -3,10 +3,12 @@ from matplotlib.backends.backend_pdf import PdfPages
 import os
 
 def read_csv(p):
-    df=pd.read_csv(p,header=None)
-    X=df.iloc[:,0:3].to_numpy(float)
-    y=df.iloc[:,3].to_numpy(float)
-    return X,y
+    df = pd.read_csv(p, header=0, skipinitialspace=True)
+    df = df.apply(pd.to_numeric, errors='coerce').dropna()
+    X = df.iloc[:, 0:3].to_numpy(float)
+    y = df.iloc[:, 3].to_numpy(float)
+    return X, y
+
 
 def with_intercept(X):
     return np.hstack([np.ones((X.shape[0],1)),X])
@@ -124,3 +126,6 @@ def main():
 
 if __name__=="__main__":
     main()
+
+
+
